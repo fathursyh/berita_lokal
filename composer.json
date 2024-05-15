@@ -1,0 +1,15 @@
+{
+    "name": "fathur/berita_lokal",
+    "description": "tugas UTP tekweb tema berita lokal",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Fathur Syah"
+        }
+    ],
+    "require": {}
+}
