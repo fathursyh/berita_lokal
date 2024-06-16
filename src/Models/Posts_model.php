@@ -26,10 +26,18 @@ class Posts_model {
   }
 
   public function getPost($id) {
-    $query = 'SELECT * FROM post_berita WHERE id_post = :id_post';
+    $query = 'SELECT post_berita.*, kategori_berita.nama_kategori FROM post_berita INNER JOIN kategori_berita WHERE post_berita.id_kategori = kategori_berita.id_kategori';
     $this->db->query($query);
     $this->db->bind('id_post', $id);
     return $this->db->single();
+  }
+
+  public function getPostsFromUser($userid) {
+    $query = 'SELECT post_berita.*, kategori_berita.nama_kategori FROM post_berita INNER JOIN kategori_berita WHERE post_berita.id_kategori = kategori_berita.id_kategori AND id_penulis = :id_penulis';
+    $this->db->query($query);
+    $this->db->bind('id_penulis', $userid);
+    return $this->db->resultSet();
+
   }
 
   public function getCategory() {
@@ -38,12 +46,14 @@ class Posts_model {
     return $this->db->resultSet();
   }
 
-  public function insertPost($data) {
-    $query = "INSERT INTO post_berita (id_penulis, id_kategori, judul_post, isi_post) VALUES
-    (:id_penulis, :id_kategori, :judul, :isi)";
+  public function insertPost($data, $file) {
+    $targetFile = $data['id_penulis'] . '_' . $file['image']['name'];
+    $query = "INSERT INTO post_berita (id_penulis, id_kategori, image,  judul_post, isi_post) VALUES
+    (:id_penulis, :id_kategori, :image,  :judul, :isi)";
     $this->db->query($query);
     $this->db->bind('id_penulis', $data['id_penulis']);
     $this->db->bind('id_kategori', $data['id_kategori']);
+    $this->db->bind('image', $targetFile );
     $this->db->bind('judul', $data['title']);
     $this->db->bind('isi', $data['isi_post']);
 

@@ -74,8 +74,8 @@
         </div>
       </div>
       <div class="col-9 p-5">
-        <form action="<?= DIREKTORI . '/dashboard/create'?>" method="post">
-        <input type="hidden" name="id_penulis" value="1" id="id_penulis">
+        <form action="<?= DIREKTORI . '/dashboard/create'?>" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id_penulis" value="<?= $_SESSION['id_penulis']??1 ?>" id="id_penulis">
           <div class="mb-3" style="width: 60%;">
             <label for="title" class="form-label">Judul Post</label>
             <input type="text" class="form-control" id="title" name="title" required autofocus>
@@ -88,6 +88,11 @@
                 <option value="<?= $item['id_kategori'] ?>"><?= $item['nama_kategori'] ?></option>
               <?php endforeach; ?>
             </select>
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <img src="" alt="" width="200px" class="img-preview" onclick="clearImage()" style="cursor: pointer;">
+            <input type="file" name="image" id="image" onchange="previewImage()">
           </div>
           <div class="mb-3" style="width: 80%;">
           <input id="isi_post" type="hidden" name="isi_post">

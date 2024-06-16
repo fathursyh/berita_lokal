@@ -8,7 +8,7 @@ class Dashboard extends Controller {
 
   public function index() {
     $data['title'] = 'Dashboard';
-    $data['posts'] = $this->model('Posts_model')->getPosts();
+    $data['posts'] = $this->model('Posts_model')->getPostsFromUser($_SESSION['id_penulis']);
     $this->view('dashboard/index', $data);
     $this->view('template/footer');
   }
@@ -38,7 +38,8 @@ class Dashboard extends Controller {
   }
 
   public function create() {
-    if($this->model('Posts_model')->insertPost($_POST) > 0) {
+    if($this->model('Posts_model')->insertPost($_POST, $_FILES) > 0) {
+      $this->model('Upload')->saveImage($_FILES, $_POST);
       header('Location: ' . DIREKTORI . '/dashboard/index');
       exit;
     } else {

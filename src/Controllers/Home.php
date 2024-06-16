@@ -3,14 +3,15 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Models\User_model;
 
 class Home extends Controller {
   
   public function index() {
-    $data['title'] = 'Home';
-    $data['user'] = 'Username';
-    $this->view('template/header', $data);
-    $this->view('home/index');
-    $this->view('template/footer');
+    if(isset($_SESSION['id_penulis'])){
+      $data['user'] = $this->model('User_model')->getUserFromId($_SESSION['id_penulis']);
+    }
+    $data['berita'] = $this->model('Posts_model')->getPosts();
+    $this->view('home/index', $data);
   }
 }
