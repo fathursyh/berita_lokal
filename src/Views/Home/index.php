@@ -91,6 +91,9 @@
     #headline img {
       z-index: 1;
     }
+    #headline-text {
+      z-index: 120;
+    }
     #main-content {
       display: grid;
       grid-template-rows: 3fr max-content;
@@ -111,7 +114,7 @@
     }
 
     .card {
-      background-color: rgb(210, 210, 210);
+      background-color: white;
       display: flex;
       flex-flow: column nowrap;
       width: 120px;
@@ -199,6 +202,14 @@
       transform: scale(0.8);
     }
 
+    #slideLayer {
+      position: absolute;
+      z-index: 100;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(60, 60, 60, 0.635);
+    }
+
     @media (min-width: 800px) {
       .navigations {
         font-size: 1.2rem;
@@ -217,7 +228,7 @@
       }
 
       #main-content {
-        padding: 0 2rem;
+        /* padding: 0 2rem; */
         display: grid;
         grid-template-columns: 2fr 1fr;
         grid-template-rows: none;
@@ -260,7 +271,13 @@
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      var splide = new Splide('.splide');
+      var splide = new Splide('.splide', {
+        type: 'loop',
+        lazyLoad: true,
+        pauseOnHover: true,
+        autoplay: true,
+        interval: 3000,
+      });
       splide.mount();
     });
   </script>
@@ -270,8 +287,7 @@
   <nav>
     <div class="navbar">
       <div class="navbar-content">
-        <h2>Fokus Unpak</h2>
-        <div class="auth">
+      <h2 style="font-weight:bold; font-size: x-large;"><a href="<?= DIREKTORI ?>">Fokus Unpak</a></h2>        <div class="auth">
           <a href="">Search</a>
           <?php
             if(isset($data['user'])) {
@@ -279,13 +295,12 @@
             } else {
               echo "<a href=" . DIREKTORI . '/login' . ">Login</a>";
             }
-          
           ?>
         </div>
       </div>
       <ul class="navigations">
         <li><a href="<?= DIREKTORI ?>">Home</a></li>
-        <li><a href="<?= DIREKTORI . '/kategori' ?>">Category</a></li>
+        <li><a href="<?= DIREKTORI . '/posts/kategori' ?>">Category</a></li>
         <li><a href="<?= DIREKTORI . '/dashboard' ?>">Dashboard</a></li>
       </ul>
     </div>
@@ -294,9 +309,10 @@
     <section id="headline" class="splide">
       <div class="splide__track">
         <ul class="splide__list">
-          <?php foreach($data['berita'] as $post) : ?>
-          <li class="splide__slide">
-            <p id="headline-text"><?= $post['judul_post'] ?></p>
+          <?php foreach($data['beritaPopuler'] as $post) : ?>
+            <li class="splide__slide" style="cursor:pointer;" onclick="changeURL(<?= $post['id_post']?>)">
+              <p id="headline-text"><?= $post['judul_post'] ?></p>
+              <div id="slideLayer"></div>
             <img src="<?= DIREKTORI . '/assets/news/'. $post['image'] ?>" alt="" height="100%"  width="100%" style="object-fit:cover; object-position: center;">
           </li>
           <?php endforeach; ?>
@@ -306,12 +322,12 @@
     <section id="main-content">
       <article id="news">
       <?php foreach($data['berita'] as $post) : ?>
-        <a class="card" href="#">
+        <a class="card" href="<?= DIREKTORI . '/posts/detail/' . $post['id_post'] ?>">
           <div class="card-img">
             <img src="<?= DIREKTORI . '/assets/news/' . $post['image'] ?>" alt="" width="110%" height="100%">
           </div>
           <div class="card-text">
-            <h4 style="font-size: small;"><?= $post['judul_post'] ?></h4>
+            <h4 style="font-size: small;"><?= mb_strimwidth($post['judul_post'], 0, 50, '...') ?></h4>
             <br>
             <?php
               $now = new DateTime();
@@ -319,7 +335,7 @@
               $diff = $now->diff($later)->format('%h');
               $diff1 = $now->diff($later)->format('%d')
             ?>
-            <p style="font-size: x-small; text-align: start; display: inline; color: black;"><?= ($diff > 23)? $diff1 . ' hari yang lalu' : $diff . ' jam yang lalu' ?> </p>
+            <p style="font-size: x-small; text-align: start; display: inline; color: black;"><?= ($diff > 23)? '<strong>' . $diff1 . ' hari yang lalu</strong>' : '<strong>' . $diff . ' jam yang lalu</strong>' ?> </p>
           </div>
         </a>
         <?php endforeach; ?>
@@ -329,18 +345,28 @@
           <h3 style="text-align: center;">Trending News</h3>
           <br>
           <ul>
-            <li><a href="">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</a></li>
-            <li><a href="">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</a></li>
-            <li><a href="">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</a></li>
+          <?php 
+            foreach($data['beritaPopuler'] as $post) : ?>
+            <li><a href="<?= DIREKTORI . "/posts/detail/" . $post['id_post'] ?>" style="color: white;"><?= $post['judul_post']?></a></li>
+            <?php endforeach; ?>
           </ul>
         </div>
         <div id="random">
           <h3 style="text-align: center;">Random News</h3>
           <br>
           <ul>
-            <li><a href="">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</a></li>
-            <li><a href="">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</a></li>
-            <li><a href="">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</a></li>
+            <?php 
+            shuffle($data['berita']);
+            $i = 1;
+            foreach($data['berita'] as $post) : 
+            if($i == 5) {break;}
+            ?>
+            <li><a href="<?= DIREKTORI . "/posts/detail/" . $post['id_post'] ?>" style="color: white;"><?= $post['judul_post']?></a></li>
+            
+            <?php
+              $i++;
+              endforeach;
+              ?>
           </ul>
         </div>
       </aside>
@@ -370,5 +396,18 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+  <script>
+    <?php 
+    if(isset($_SESSION['alert'])){
+      $pesan = $_SESSION['alert'];
+      unset($_SESSION['alert']);
+      echo "alert('Kamu berhasil $pesan');";
+    }
+    ?>
+
+  function changeURL(id) {
+    location.href = '<?= DIREKTORI . '/posts/detail/' ?>' + id;
+  }
+  </script>
 </body>
 </html>

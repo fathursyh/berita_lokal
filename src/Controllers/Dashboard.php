@@ -7,10 +7,16 @@ use App\Core\Controller;
 class Dashboard extends Controller {
 
   public function index() {
-    $data['title'] = 'Dashboard';
-    $data['posts'] = $this->model('Posts_model')->getPostsFromUser($_SESSION['id_penulis']);
-    $this->view('dashboard/index', $data);
-    $this->view('template/footer');
+    if(isset($_SESSION['id_penulis'])) {
+      $data['title'] = 'Dashboard';
+      $data['posts'] = $this->model('Posts_model')->getPostsFromUser($_SESSION['id_penulis']);
+      $this->view('dashboard/index', $data);
+      $this->view('template/footer');
+    } else {
+      header('Location: ' . DIREKTORI . '/login');
+      exit;
+    }
+
   }
 
   public function publish($id, $is_published) {

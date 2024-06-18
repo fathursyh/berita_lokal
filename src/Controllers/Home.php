@@ -12,6 +12,7 @@ class Home extends Controller {
       $data['user'] = $this->model('User_model')->getUserFromId($_SESSION['id_penulis']);
     }
     $data['berita'] = $this->model('Posts_model')->getPosts();
+    $data['beritaPopuler'] = $this->model('Posts_model')->getPopularPosts();
     $this->view('home/index', $data);
   }
 }

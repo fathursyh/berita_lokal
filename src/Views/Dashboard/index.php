@@ -80,7 +80,7 @@
             foreach (array_reverse($data['posts']) as $post) : ?>
               <tr>
                 <th scope="row"><?= $i ?></th>
-                  <td><a href="<?= DIREKTORI ?>" class="text-decoration-none text-dark"><?= $post['judul_post'] ?></a></td>
+                  <td><a href="<?= DIREKTORI . '/posts/detail/' . $post['id_post'] ?>" class="text-decoration-none text-dark"><?= $post['judul_post'] ?></a></td>
                   <td><?= $post['nama_kategori'] ?></td>
                   <td><?= $post['views'] ?></td>
                   <td style="color:<?= ($post['is_published'] > 0)?  'green' : 'red'; ?>"><?= ($post['is_published'] > 0)? 'Published' : 'Draft' ?></td>

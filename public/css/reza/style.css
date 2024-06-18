@@ -1,0 +1,124 @@
+/* General Styles */
+body {
+	background-color: #2e2e2e;
+	/* Dark background */
+	color: #e6e6fa;
+	/* Light text color */
+}
+
+.navbar-default {
+	background-color: #4b0082;
+	/* Indigo background for the navbar */
+	border-color: #4b0082;
+	/* Indigo border for the navbar */
+}
+
+.navbar-default .navbar-brand {
+	color: #dda0dd;
+	/* Light purple color for the brand */
+}
+
+.navbar-default .navbar-nav>li>a {
+	color: #dda0dd;
+	/* Light purple color for navbar links */
+}
+
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus {
+	color: #ffffff;
+	/* White color on hover/focus */
+	background-color: #551a8b;
+	/* Dark purple background on hover/focus */
+}
+
+.navbar-default .navbar-toggle {
+	border-color: #dda0dd;
+	/* Light purple border for the toggle button */
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #dda0dd;
+	/* Light purple color for the icon bars */
+}
+
+.dropdown-menu {
+	background-color: #4b0082;
+	/* Indigo background for dropdown menu */
+	border-color: #4b0082;
+	/* Indigo border for dropdown menu */
+}
+
+.dropdown-menu>li>a {
+	color: #dda0dd;
+	/* Light purple color for dropdown menu links */
+}
+
+.dropdown-menu>li>a:hover,
+.dropdown-menu>li>a:focus {
+	color: #ffffff;
+	/* White color on hover/focus */
+	background-color: #551a8b;
+	/* Dark purple background on hover/focus */
+}
+
+.top {
+	background-color: #4b0082;
+	/* Indigo background for top bar */
+	color: #dda0dd;
+	/* Light purple text color for top bar */
+}
+
+.top span {
+	color: #dda0dd;
+	/* Light purple text color for spans in top bar */
+}
+
+.glyphicon {
+	color: #dda0dd;
+	/* Light purple color for glyphicon icons */
+}
+
+a {
+	color: #dda0dd;
+	/* Light purple color for all links */
+}
+
+a:hover,
+a:focus {
+	color: #ffffff;
+	/* White color for links on hover/focus */
+}
+
+/* Custom Styles */
+.container-fluid {
+	padding: 0;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.navbar-toggle.collapsed {
+	border-color: #dda0dd;
+	/* Light purple border for collapsed navbar toggle */
+}
+
+.navbar-collapse.collapse {
+	background-color: #4b0082;
+	/* Indigo background for collapsed navbar */
+}
+
+.navbar-nav>li>a {
+	padding: 15px 20px;
+}
+
+/* Ensure the page content fits well with the new color scheme */
+.container {
+	background-color: #2e2e2e;
+	color: #e6e6fa;
+	padding: 15px;
+}
+
+.row {
+	margin-bottom: 15px;
+}

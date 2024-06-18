@@ -17,6 +17,7 @@ class Login extends Controller {
       ];
       $this->model('User_model')->login($_POST);
      if ($this->model('User_model')->login($_POST)) {
+        $_SESSION['alert'] = 'login!';
          header('Location:'. DIREKTORI . $_SESSION['lastC']);
          exit();
       } else {
@@ -29,6 +30,7 @@ class Login extends Controller {
   public function logout() {
       unset($_SESSION['username']);
       unset($_SESSION['id_penulis']);
+      $_SESSION['alert'] = 'logout!';
       header('Location:'. DIREKTORI . '/home');
       exit();
 

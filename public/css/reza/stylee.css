@@ -1,0 +1,119 @@
+/* header */
+header {
+    background-color: #0052d9;
+    /* Warna biru */
+    padding: 20px 0;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.navbar-brand {
+    color: #fff !important;
+    /* Warna teks putih untuk kontras dengan background biru */
+}
+
+.navbar-nav>li>a {
+    color: #fff !important;
+    /* Warna teks putih untuk item navigasi */
+}
+
+/* navbar */
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #e2ebff;
+
+}
+
+.navbar-default {
+    background-color: transparent;
+    /* Hapus warna biru dan biarkan transparan */
+    border-color: transparent;
+    /* Hilangkan border default */
+    margin-bottom: 0;
+    /* Hilangkan margin bawah */
+}
+
+.navbar-default .navbar-brand {
+    color: #fff;
+    /* Warna teks putih untuk kontras dengan background */
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #ccc;
+    /* Warna teks saat di-hover */
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+    /* Warna teks putih untuk item navigasi */
+}
+
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus {
+    color: #ccc;
+    /* Warna teks saat di-hover */
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+    /* Memberikan padding di kiri dan kanan */
+}
+
+.navbar-header,
+.navbar-collapse {
+    flex: 1;
+}
+
+.navbar-header {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.navbar-collapse {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container {
+    color: #fff;
+    /* Warna teks putih */
+    padding: 10px;
+    /* Kurangi padding */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    /* Bayangan dengan warna dan opacity tertentu */
+    width: 100%;
+    margin: 0 auto;
+
+}
+
+footer {
+    border-top: 4px solid #700a8d;
+}
+
+footer .container,
+footer .row {
+    background-color: #209fd8;
+}
+
+footer .col-md-4 p a {
+    color: #000;
+    text-decoration: none;
+}
+
+footer .col-md-4 p a:hover {
+    text-decoration: underline;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: flex-end;
+}

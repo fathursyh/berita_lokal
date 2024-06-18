@@ -24,9 +24,14 @@ class Posts_model {
     $this->db->query($query);
     return $this->db->resultSet();
   }
+  public function getPopularPosts() {
+    $query = 'SELECT post_berita.*, kategori_berita.nama_kategori FROM post_berita INNER JOIN kategori_berita WHERE post_berita.id_kategori = kategori_berita.id_kategori ORDER BY post_berita.views DESC LIMIT 5';
+    $this->db->query($query);
+    return $this->db->resultSet();
+  }
 
   public function getPost($id) {
-    $query = 'SELECT post_berita.*, kategori_berita.nama_kategori FROM post_berita INNER JOIN kategori_berita WHERE post_berita.id_kategori = kategori_berita.id_kategori';
+    $query = 'SELECT post_berita.*, kategori_berita.nama_kategori FROM post_berita INNER JOIN kategori_berita WHERE post_berita.id_kategori = kategori_berita.id_kategori AND post_berita.id_post = :id_post';
     $this->db->query($query);
     $this->db->bind('id_post', $id);
     return $this->db->single();

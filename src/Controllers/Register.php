@@ -23,7 +23,7 @@ class Register extends Controller
             'password' => $_POST['password'],
         ];
         if ($this->model('User_model')->register($_POST) > 0) {
-            $_SESSION['daftar'] = 'mendaftar!';
+            $_SESSION['alert'] = 'mendaftar!';
             header('Location:' . DIREKTORI);
             exit();
         } else {
