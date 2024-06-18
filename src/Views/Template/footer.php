@@ -9,15 +9,11 @@
     search.classList.toggle('show');
     document.getElementById('search').focus();
   }
-  search.addEventListener('keydown', function (event) {
+  window.addEventListener('keydown', function (event) {
       if (event.keyCode == 27){
         search.classList.add('show');
       }
   });
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-    })
     function debounce(func, wait) {
       let timeout;
       return function executedFunction(...args) {

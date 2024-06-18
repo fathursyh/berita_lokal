@@ -46,7 +46,7 @@
 <body>
   <div class="container vh-100 mx-0 mt-0 ps-0">
     <div class="row vh-100">
-      <div class="col-3">
+      <div class="col-12 col-md-3 d-sm-block d-md-flex">
         <div class="sidebar px-4 py-5">
           <div id="logo">
             <a href="<?= DIREKTORI ?>" class="text-decoration-none">
@@ -62,8 +62,8 @@
           </div>
         </div>
       </div>
-      <div class="col-9 p-5">
-        <table class="table table-hover">
+      <div class="col-12 col-md-9 p-5">
+        <table class="table table-hover table-sm">
           <thead>
             <tr>
               <th scope="col" style="width: 5%;">No</th>
@@ -77,7 +77,7 @@
           <tbody class="table-group-divider">
             <?php
             $i = 1;
-            foreach (array_reverse($data['posts']) as $post) : ?>
+            foreach ($data['posts'] as $post) : ?>
               <tr>
                 <th scope="row"><?= $i ?></th>
                   <td><a href="<?= DIREKTORI . '/posts/detail/' . $post['id_post'] ?>" class="text-decoration-none text-dark"><?= $post['judul_post'] ?></a></td>

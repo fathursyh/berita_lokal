@@ -48,7 +48,7 @@ class Posts_model {
   }
 
   public function getPostsFromUser($userid) {
-    $query = 'SELECT post_berita.*, kategori_berita.nama_kategori FROM post_berita INNER JOIN kategori_berita WHERE post_berita.id_kategori = kategori_berita.id_kategori AND id_penulis = :id_penulis';
+    $query = 'SELECT post_berita.*, kategori_berita.nama_kategori FROM post_berita INNER JOIN kategori_berita WHERE post_berita.id_kategori = kategori_berita.id_kategori AND id_penulis = :id_penulis ORDER BY post_berita.tgl_dibuat DESC';
     $this->db->query($query);
     $this->db->bind('id_penulis', $userid);
     return $this->db->resultSet();

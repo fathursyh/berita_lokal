@@ -58,7 +58,7 @@
 <body>
   <div class="container vh-100 mx-0 mt-0 ps-0">
     <div class="row vh-100">
-      <div class="col-3">
+      <div class="col-3 d-block d-md-flex">
         <div class="sidebar px-4 py-5">
           <div id="logo">
             <a href="<?= DIREKTORI ?>" class="text-decoration-none">
@@ -73,7 +73,7 @@
           </div>
         </div>
       </div>
-      <div class="col-9 p-5">
+      <div class="col-12 col-md-9 p-5">
         <form action="<?= DIREKTORI . '/dashboard/alter'?>" method="post">
         <input type="hidden" name="id_post" value="<?= $data['post']['id_post'] ?>" id="id_post">
         <input type="hidden" name="id_penulis" value="1" id="id_penulis">
@@ -90,7 +90,7 @@
               <?php endforeach; ?>
             </select>
           </div>
-          <div class="mb-3" style="width: 80%;">
+          <div class="mb-3" style="width: 100%;">
           <input id="isi_post" type="hidden" name="isi_post" value="<?= $data['post']['isi_post'] ?>">
           <trix-editor input="isi_post"></trix-editor>
           </div>
