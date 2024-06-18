@@ -8,7 +8,6 @@ const DB_HOST = 'localhost';
 const DB_USER = 'root';
 const DB_PASS = '12345';
 const DB_NAME = 'berita_lokal';
-
 const KATEGORI = [
   ''
 ];

@@ -18,26 +18,45 @@
     form.addEventListener('submit', function(e){
       e.preventDefault();
     })
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    };
+
+// search delay
     const input = document.querySelector('#search');
-    input.addEventListener('input', async()=>{
-      const searchResult = document.getElementById('listSearch').innerHTML = '';
-      fetch('<?= DIREKTORI . '/posts/search' ?>', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-          'search' : input.value
-        }),
-      }).then((res)=>{return res.json()}).then((data)=>{
-        if(input.value != '') {
-          data.forEach(post=>{
-            insertList(post.judul_post, post.id_post);
-          })
-        }
-      }).catch((err)=>{console.log(err)});
-    });
+    const debouncedSearch = debounce(function(event) {
+        document.getElementById('listSearch').innerHTML = '';
+          fetch('<?= DIREKTORI . '/posts/search' ?>', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+              'search': input.value
+            }),
+          }).then((res) => {
+            return res.json()
+          }).then((data) => {
+            if (input.value != '') {
+              data.forEach(post => {
+                insertList(post.judul_post, post.id_post);
+              })
+            }
+          }).catch((err) => {
+            console.log(err)
+          });
+    }, 450);
+
+    input.addEventListener('input', debouncedSearch);
     function insertList(body, id) {
       const searchResult = document.getElementById('listSearch');
       const data = `

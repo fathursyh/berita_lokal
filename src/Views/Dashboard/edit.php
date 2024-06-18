@@ -68,7 +68,7 @@
           <div id="user" class="d-flex flex-row gap-3 justify-content-center align-items-center">
             <img src="<?= DIREKTORI . '/assets/cat.avif' ?>" alt="" width="100" height="100" style="border-radius: 50%; object-fit: cover; object-position: center;">
             <div class="kategori">
-              <h4 class="fw-bold fs-5">Username</h4>
+              <h4 class="fw-bold fs-5 text-light"><?= $_SESSION['username']?></h4>
             </div>
           </div>
         </div>

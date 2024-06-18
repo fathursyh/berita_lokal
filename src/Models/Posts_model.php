@@ -20,7 +20,7 @@ class Posts_model {
     return $this->db->rowCount();
   }
   public function getPosts() {
-    $query = "SELECT post_berita.*, kategori_berita.nama_kategori FROM post_berita INNER JOIN kategori_berita WHERE post_berita.id_kategori = kategori_berita.id_kategori AND post_berita.is_published = 1 ORDER BY post_berita.tgl_publish DESC LIMIT 30";
+    $query = "SELECT post_berita.*, kategori_berita.nama_kategori FROM post_berita INNER JOIN kategori_berita WHERE post_berita.id_kategori = kategori_berita.id_kategori AND post_berita.is_published = 1 ORDER BY post_berita.tgl_publish DESC LIMIT 12";
     $this->db->query($query);
     return $this->db->resultSet();
   }

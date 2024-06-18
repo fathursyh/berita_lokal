@@ -5,10 +5,11 @@ namespace App\Core;
 class App
 {
   private $nameSpaceController = "App\\Controllers\\";
+  
   protected $controller = "Home";
   protected $method = 'index';
   protected $params = [];
-
+  
   function __construct()
   {
 
