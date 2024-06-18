@@ -6,6 +6,9 @@ use App\Core\Controller;
 
 class Posts extends Controller {
   public function kategori() {
+    if(isset($_SESSION['id_penulis'])){
+      $data['user'] = $this->model('User_model')->getUserFromId($_SESSION['id_penulis']);
+    }
     $data['umum'] = $this->model('Posts_model')->getCategoryById(1);
     $data['ukm'] = $this->model('Posts_model')->getCategoryById(2);
     $data['kemahasiswaan'] = $this->model('Posts_model')->getCategoryById(3);
@@ -14,6 +17,9 @@ class Posts extends Controller {
     $this->view('template/footer');
   }
   public function detail($id) {
+    if(isset($_SESSION['id_penulis'])){
+      $data['user'] = $this->model('User_model')->getUserFromId($_SESSION['id_penulis']);
+    }
     $data['berita'] = $this->model('Posts_model')->getPost($id);
     $this->model('Posts_model')->incViews($id);
     $this->view("posts/detail", $data);
