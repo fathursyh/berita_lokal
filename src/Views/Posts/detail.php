@@ -55,10 +55,13 @@ use App\Controllers\Dashboard;
             margin-top: 0;
         }
 
+        #hotnews {
+          padding: 2rem 2rem;
+        }
+
+
         .feature-image {
-            margin-left: auto;
-            margin-right: auto;
-            width: 80%;
+            width: 100%;
             height: auto;
             margin-bottom: 2rem;
         }
@@ -94,6 +97,17 @@ use App\Controllers\Dashboard;
             text-decoration: none !important;
             scroll-behavior: smooth;
     }
+    
+    @media (min-width: 800px) {
+          #hotnews {
+            padding: 2rem 8rem;
+          }
+          .feature-image {
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
 
     a:visited {
       color: inherit;
@@ -153,16 +167,59 @@ use App\Controllers\Dashboard;
     .navigations li:hover {
       transform: scale(1.2);
     }
+    .searchbox {
+      width: 100%;
+      min-height: 30%;
+      z-index: 130;
+      position: fixed;
+      background-color: rgba(59, 53, 53, 0.879);
+      backdrop-filter: blur(2px);
+      color: white;
+      transition: all 0.8s ease-in-out;
+      padding: 1rem;
+      text-wrap: wrap;
+      left: 0;
+      text-align: center;
+    }
+
+    .show {
+      transform: translateY(-100%);
+    }
+
+    #search {
+      border-radius: 5px;
+      height: 20px;
+      display: block;
+      padding: 5px;
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #listSearch {
+      display: inline-block;
+      max-width: 80%;
+      text-align: left;
+      text-wrap: pretty;
+    }
 
     </style>
 </head>
 
 <body>
+<div class="searchbox show">
+    <form action="<?= DIREKTORI ?>" method="post">
+      <input type="text" id="search" placeholder="Search" name="search" autocomplete="off">
+      <br>
+      <ul style="list-style-type: square;" id="listSearch">
+      </ul>
+    </form>
+  </div>
 <nav>
     <div class="navbr">
       <div class="navbar-content">
       <h2 style="font-weight:bold; font-size: x-large;"><a href="<?= DIREKTORI ?>">Fokus Unpak</a></h2>        <div class="auth">
-          <a href="">Search</a>
+          <a onclick="showSearch()" style="cursor: pointer;">Search</a>
           <?php
             if(isset($data['user'])) {
               echo "<a href=" . DIREKTORI . '/login/logout' . ">Logout</a>";
@@ -174,7 +231,7 @@ use App\Controllers\Dashboard;
       </div>
       <ul class="navigations">
         <li><a href="<?= DIREKTORI ?>">Home</a></li>
-        <li><a href="<?= DIREKTORI . '/kategori' ?>">Category</a></li>
+        <li><a href="<?= DIREKTORI . '/posts/kategori' ?>">Category</a></li>
         <li><a href="<?= DIREKTORI . '/dashboard' ?>">Dashboard</a></li>
       </ul>
     </div>
@@ -182,7 +239,7 @@ use App\Controllers\Dashboard;
 
     <main>
         <div id="content" class="container">
-            <article id="hotnews" class="card" style="padding: 2rem 5rem;">
+            <article id="hotnews" class="card">
                 <h3 style="color: gray"><?= $data['berita']['nama_kategori']?></h3>
                 <h2><?=$data['berita']['judul_post']?></h2>
                 <hr>
@@ -190,23 +247,4 @@ use App\Controllers\Dashboard;
                 <p><?= $data['berita']['isi_post']?></p>
             </article>
         </div>
-
-        <aside>
-            <article class="profile card">
-                <figure>
-                    <img src="assets/raisa.jpg" alt="raisa">
-                </figure>
-                <p>shv</p>
-            </article>
-
-            <article class="profile card">
-                <figure>
-                    <img src="assets/ancika.jpg" alt="ancika">
-                </figure>
-                <p>gsv</p>
-            </article>
-        </aside>
     </main>
-</body>
-
-</html>

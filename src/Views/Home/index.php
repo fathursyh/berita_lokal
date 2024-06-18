@@ -18,6 +18,42 @@
       scroll-behavior: smooth;
     }
 
+    .searchbox {
+      width: 100%;
+      min-height: 30%;
+      z-index: 130;
+      position: fixed;
+      background-color: rgba(59, 53, 53, 0.879);
+      backdrop-filter: blur(2px);
+      color: white;
+      transition: all 0.8s ease-in-out;
+      padding: 1rem;
+      text-wrap: wrap;
+      left: 0;
+      text-align: center;
+    }
+
+    .show {
+      transform: translateY(-100%);
+    }
+
+    #search {
+      border-radius: 5px;
+      height: 20px;
+      display: block;
+      padding: 5px;
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #listSearch {
+      display: inline-block;
+      max-width: 80%;
+      text-align: left;
+      text-wrap: pretty;
+    }
+
     a:visited {
       color: inherit;
     }
@@ -78,7 +114,6 @@
     }
 
     main {
-      background-color: #E9EEFC;
       display: flex;
       flex-flow: column nowrap;
       gap: 10px;
@@ -88,12 +123,20 @@
       height: 20rem;
       overflow: hidden;
     }
+
     #headline img {
       z-index: 1;
     }
+
     #headline-text {
       z-index: 120;
+      position: absolute;
+      color: white;
+      font-size: 3dvh;
+      top: 40%;
+      margin-left: 1rem;
     }
+
     #main-content {
       display: grid;
       grid-template-rows: 3fr max-content;
@@ -140,6 +183,7 @@
     .card:hover,
     .card:active {
       transform: scale(1.5);
+      z-index: 10;
     }
 
     #ads {
@@ -211,6 +255,11 @@
     }
 
     @media (min-width: 800px) {
+
+      main {
+        padding: 0 4rem;
+      }
+
       .navigations {
         font-size: 1.2rem;
       }
@@ -219,6 +268,7 @@
         position: relative;
         height: 30rem;
       }
+
       #headline-text {
         position: absolute;
         color: white;
@@ -228,7 +278,6 @@
       }
 
       #main-content {
-        /* padding: 0 2rem; */
         display: grid;
         grid-template-columns: 2fr 1fr;
         grid-template-rows: none;
@@ -237,7 +286,7 @@
       }
 
       #news {
-        max-height: 45rem;
+        max-height: 100%;
         min-height: 40rem;
       }
 
@@ -277,6 +326,7 @@
         pauseOnHover: true,
         autoplay: true,
         interval: 3000,
+        height: 500,
       });
       splide.mount();
     });
@@ -284,17 +334,26 @@
 </head>
 
 <body>
+  <div class="searchbox show">
+    <form action="<?= DIREKTORI ?>" method="post">
+      <input type="text" id="search" placeholder="Search" name="search" autocomplete="off">
+      <br>
+      <ul style="list-style-type: square;" id="listSearch">
+      </ul>
+    </form>
+  </div>
   <nav>
     <div class="navbar">
       <div class="navbar-content">
-      <h2 style="font-weight:bold; font-size: x-large;"><a href="<?= DIREKTORI ?>">Fokus Unpak</a></h2>        <div class="auth">
-          <a href="">Search</a>
+        <h2 style="font-weight:bold; font-size: x-large;"><a href="<?= DIREKTORI ?>">Fokus Unpak</a></h2>
+        <div class="auth">
+          <a onclick="showSearch()" style="cursor: pointer;">Search</a>
           <?php
-            if(isset($data['user'])) {
-              echo "<a href=" . DIREKTORI . '/login/logout' . ">Logout</a>";
-            } else {
-              echo "<a href=" . DIREKTORI . '/login' . ">Login</a>";
-            }
+          if (isset($data['user'])) {
+            echo "<a href=" . DIREKTORI . '/login/logout' . ">Logout</a>";
+          } else {
+            echo "<a href=" . DIREKTORI . '/login' . ">Login</a>";
+          }
           ?>
         </div>
       </div>
@@ -309,35 +368,36 @@
     <section id="headline" class="splide">
       <div class="splide__track">
         <ul class="splide__list">
-          <?php foreach($data['beritaPopuler'] as $post) : ?>
-            <li class="splide__slide" style="cursor:pointer;" onclick="changeURL(<?= $post['id_post']?>)">
+          <?php foreach ($data['beritaPopuler'] as $post) : ?>
+            <li class="splide__slide" style="cursor:pointer;" onclick="URL2Post(<?= $post['id_post'] ?>)">
               <p id="headline-text"><?= $post['judul_post'] ?></p>
               <div id="slideLayer"></div>
-            <img src="<?= DIREKTORI . '/assets/news/'. $post['image'] ?>" alt="" height="100%"  width="100%" style="object-fit:cover; object-position: center;">
-          </li>
+              <img src="<?= DIREKTORI . '/assets/news/' . $post['image'] ?>" alt="" height="100%" width="100%" style="object-fit:cover; object-position: center;">
+            </li>
           <?php endforeach; ?>
         </ul>
       </div>
     </section>
     <section id="main-content">
       <article id="news">
-      <?php foreach($data['berita'] as $post) : ?>
-        <a class="card" href="<?= DIREKTORI . '/posts/detail/' . $post['id_post'] ?>">
-          <div class="card-img">
-            <img src="<?= DIREKTORI . '/assets/news/' . $post['image'] ?>" alt="" width="110%" height="100%">
-          </div>
-          <div class="card-text">
-            <h4 style="font-size: small;"><?= mb_strimwidth($post['judul_post'], 0, 50, '...') ?></h4>
-            <br>
-            <?php
-              $now = new DateTime();
-              $later = new DateTime(strtotime($post['tgl_dibuat']));
-              $diff = $now->diff($later)->format('%h');
-              $diff1 = $now->diff($later)->format('%d')
-            ?>
-            <p style="font-size: x-small; text-align: start; display: inline; color: black;"><?= ($diff > 23)? '<strong>' . $diff1 . ' hari yang lalu</strong>' : '<strong>' . $diff . ' jam yang lalu</strong>' ?> </p>
-          </div>
-        </a>
+        <?php 
+        foreach ($data['berita'] as $post) : ?>
+          <a class="card" href="<?= DIREKTORI . '/posts/detail/' . $post['id_post'] ?>">
+            <div class="card-img">
+              <img src="<?= DIREKTORI . '/assets/news/' . $post['image'] ?>" alt="" width="110%" height="100%">
+            </div>
+            <div class="card-text">
+              <h4 style="font-size: small;"><?= mb_strimwidth($post['judul_post'], 0, 50, '...') ?></h4>
+              <br>
+              <?php
+              $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+              $later = new DateTime($post['tgl_dibuat'], new DateTimeZone('Asia/Jakarta'));
+              $jam = $now->diff($later)->format('%h');
+              $hari = $now->diff($later)->format('%d');
+              ?>
+              <p style="font-size: x-small; text-align: start; display: inline; color: black;"><?= ($hari > 0) ? '<strong>' . $hari . ' hari yang lalu</strong>' : (($jam == 0) ? '<strong> kurang dari sejam yang lalu </strong>' : '<strong>' . $jam . ' jam yang lalu</strong>') ?> </p>
+            </div>
+          </a>
         <?php endforeach; ?>
       </article>
       <aside>
@@ -345,9 +405,9 @@
           <h3 style="text-align: center;">Trending News</h3>
           <br>
           <ul>
-          <?php 
-            foreach($data['beritaPopuler'] as $post) : ?>
-            <li><a href="<?= DIREKTORI . "/posts/detail/" . $post['id_post'] ?>" style="color: white;"><?= $post['judul_post']?></a></li>
+            <?php
+            foreach ($data['beritaPopuler'] as $post) : ?>
+              <li><a href="<?= DIREKTORI . "/posts/detail/" . $post['id_post'] ?>" style="color: white;"><?= $post['judul_post'] ?></a></li>
             <?php endforeach; ?>
           </ul>
         </div>
@@ -355,18 +415,15 @@
           <h3 style="text-align: center;">Random News</h3>
           <br>
           <ul>
-            <?php 
-            shuffle($data['berita']);
-            $i = 1;
-            foreach($data['berita'] as $post) : 
-            if($i == 5) {break;}
-            ?>
-            <li><a href="<?= DIREKTORI . "/posts/detail/" . $post['id_post'] ?>" style="color: white;"><?= $post['judul_post']?></a></li>
-            
             <?php
-              $i++;
-              endforeach;
-              ?>
+            shuffle($data['berita']);
+            foreach (array_slice($data['berita'], 0, 4) as $post) :
+            ?>
+              <li><a href="<?= DIREKTORI . "/posts/detail/" . $post['id_post'] ?>" style="color: white;"><?= $post['judul_post'] ?></a></li>
+
+            <?php
+            endforeach;
+            ?>
           </ul>
         </div>
       </aside>
@@ -397,17 +454,66 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
   <script>
-    <?php 
-    if(isset($_SESSION['alert'])){
+    <?php
+    if (isset($_SESSION['alert'])) {
       $pesan = $_SESSION['alert'];
       unset($_SESSION['alert']);
       echo "alert('Kamu berhasil $pesan');";
     }
     ?>
 
-  function changeURL(id) {
-    location.href = '<?= DIREKTORI . '/posts/detail/' ?>' + id;
-  }
+    function URL2Post(id) {
+      location.href = '<?= DIREKTORI . '/posts/detail/' ?>' + id;
+    }
+
+    const search = document.querySelector('.searchbox');
+    function showSearch() {
+      search.classList.toggle('show');
+      document.getElementById('search').focus();
+    }
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+    })
+    const input = document.querySelector('#search');
+    input.addEventListener('input', async () => {
+      const searchResult = document.getElementById('listSearch').innerHTML = '';
+      fetch('<?= DIREKTORI . '/posts/search' ?>', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+          'search': input.value
+        }),
+      }).then((res) => {
+        return res.json()
+      }).then((data) => {
+        if (input.value != '') {
+          data.forEach(post => {
+            insertList(post.judul_post, post.id_post);
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
+      });
+    });
+
+    function insertList(body, id) {
+      const searchResult = document.getElementById('listSearch');
+      const data = `
+        <li><a href="<?= DIREKTORI . '/posts/detail/' ?>${id}">${body}</a></li>
+      `;
+      searchResult.insertAdjacentHTML('afterbegin', data);
+    };
+
+    search.addEventListener('keydown', function (event) {
+      if (event.keyCode == 27){
+        search.classList.add('show');
+      }
+    });
   </script>
 </body>
+
 </html>

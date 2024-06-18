@@ -16,7 +16,7 @@ class Upload
   
   public function saveImage($data, $post)
   {
-      $targetDir =  IMAGEDIR . $post['id_penulis'] . '_' . $data['image']['name'];
+      $targetDir =  IMAGEDIR . $post['id_penulis'] . '_' . str_replace(' ', '', $data['image']['name']);
       $targetFile = $targetDir . basename($data["image"]["name"]);
       $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
     if (isset($_POST)) {

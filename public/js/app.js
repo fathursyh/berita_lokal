@@ -17,3 +17,4 @@ function clearImage() {
   image.value = ''
   imgPreview.src = ''
 }
+

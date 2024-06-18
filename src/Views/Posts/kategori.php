@@ -2,19 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kategori</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">  
-    <link rel="stylesheet" href="<?= DIREKTORI . '/assets/css/reza/' ?>stylee.css">
-    <script src="style/jquery.js"></script>
-    <script src="style/bootstrap.min.js"></script>
-    <style>
-                * {
-            margin: 0;
-            padding: 0;
-            text-decoration: none !important;
-            scroll-behavior: smooth;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kategori</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="<?= DIREKTORI . '/assets/css/reza/' ?>stylee.css">
+  <script src="style/jquery.js"></script>
+  <script src="style/bootstrap.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      text-decoration: none !important;
+      scroll-behavior: smooth;
     }
 
     a:visited {
@@ -75,21 +75,71 @@
     .navigations li:hover {
       transform: scale(1.2);
     }
-    </style>
+
+    .card-body {
+      overflow-y: auto !important;
+      max-height: 400px;
+    }
+
+    .searchbox {
+      width: 100%;
+      min-height: 30%;
+      z-index: 130;
+      position: fixed;
+      background-color: rgba(59, 53, 53, 0.879);
+      backdrop-filter: blur(2px);
+      color: white;
+      transition: all 0.8s ease-in-out;
+      padding: 1rem;
+      text-wrap: wrap;
+      left: 0;
+      text-align: center;
+    }
+
+    .show {
+      transform: translateY(-100%);
+    }
+
+    #search {
+      border-radius: 5px;
+      height: 20px;
+      display: block;
+      padding: 5px;
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #listSearch {
+      display: inline-block;
+      max-width: 80%;
+      text-align: left;
+      text-wrap: pretty;
+    }
+  </style>
 </head>
 
 <body>
-<nav>
+  <div class="searchbox show">
+    <form action="<?= DIREKTORI ?>" method="post">
+      <input type="text" id="search" placeholder="Search" name="search" autocomplete="off">
+      <br>
+      <ul style="list-style-type: square;" id="listSearch">
+      </ul>
+    </form>
+  </div>
+  <nav>
     <div class="navbr">
       <div class="navbar-content">
-      <h2 style="font-weight:bold; font-size: x-large;"><a href="<?= DIREKTORI ?>">Fokus Unpak</a></h2>        <div class="auth">
-          <a href="">Search</a>
+        <h2 style="font-weight:bold; font-size: x-large;"><a href="<?= DIREKTORI ?>">Fokus Unpak</a></h2>
+        <div class="auth">
+          <a onclick="showSearch()" style="cursor: pointer;">Search</a>
           <?php
-            if(isset($data['user'])) {
-              echo "<a href=" . DIREKTORI . '/login/logout' . ">Logout</a>";
-            } else {
-              echo "<a href=" . DIREKTORI . '/login' . ">Login</a>";
-            }
+          if (isset($data['user'])) {
+            echo "<a href=" . DIREKTORI . '/login/logout' . ">Logout</a>";
+          } else {
+            echo "<a href=" . DIREKTORI . '/login' . ">Login</a>";
+          }
           ?>
         </div>
       </div>
@@ -102,77 +152,69 @@
   </nav>
 
   <div class="container">
-      <div class="card mt-5" style="margin-top: 20px; margin-bottom: 20px; margin-left: 80px; margin-right: 80px;">
-          <div style="text-align: center; padding: auto; font-size: 30px;" class="card-header bg-primary">
-              UMUM
-          </div>
-          <div class="card-body">
-              <div class="container" style="overflow-x: auto;">
-                  <div style="display: flex;">
-                      <img src="assets/agk.jpg"
-                          style="width: 400px; height: 500px; object-fit: cover; margin-right: 20px;" alt="UKM Image">
-                  </div>
+    <div class="card mt-5" style="margin-top: 20px; margin-bottom: 20px; margin-left: 80px; margin-right: 80px;">
+      <div style="text-align: center; padding: auto; font-size: 30px;" class="card-header bg-primary">
+        <h3 class="text-light">UMUM</h3>
+      </div>
+      <div class="card-body">
+        <div class="container" style="overflow-x: auto;">
+          <div style="display: flex; flex-flow: row wrap; gap: 0.5rem;">
+            <?php foreach ($data['umum'] as $post) : ?>
+              <a href="<?= DIREKTORI . '/posts/detail/' . $post['id_post']  ?>">
+                <img src="<?= DIREKTORI . '/assets/news/' . $post['image'] ?>" style="width: 200px; height: 200px; object-fit: cover; margin-right: 20px;" alt="UKM Image">
+              </a>
+              <?php endforeach; ?>
               </div>
           </div>
+        </div>
       </div>
-      
-        <div class="card mt-5" style="margin-top: 20px; margin-bottom: 20px; margin-left: 80px; margin-right: 80px;">
-            <div style="text-align: center; padding: auto; font-size: 30px;" class="card-header bg-primary">
-                UKM
-            </div>
-            <div class="card-body">
-                <div class="container" style="overflow-x: auto;">
-                    <div style="display: flex;">
-                        <img src="assets/agk.jpg"
-                            style="width: 400px; height: 500px; object-fit: cover; margin-right: 20px;" alt="UKM Image">
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="card mt-5" style="margin-top: 20px; margin-bottom: 20px; margin-left: 80px; margin-right: 80px;">
-            <div style="text-align: center; padding: auto; font-size: 30px;" class="card-header bg-primary">
-                Kemahasiswaan
-            </div>
-            <div class="card-body">
-                <div class="container" style="overflow-x: auto;">
-                    <div style="display: flex;">
-                        <img src="assets/agk.jpg"
-                            style="width: 400px; height: 500px; object-fit: cover; margin-right: 20px;" alt="UKM Image">
-                    </div>
-                </div>
-            </div>
+      <div class="card mt-5" style="margin-top: 20px; margin-bottom: 20px; margin-left: 80px; margin-right: 80px;">
+        <div style="text-align: center; padding: auto; font-size: 30px;" class="card-header bg-primary">
+          <h3 class="text-light">UKM</h3>
         </div>
-        <div class="card mt-5" style="margin-top: 20px; margin-bottom: 20px; margin-left: 80px; margin-right: 80px;">
-            <div style="text-align: center; padding: auto; font-size: 30px;" class="card-header bg-primary">
-                DKM
+        <div class="card-body">
+          <div class="container" style="overflow-x: auto;">
+            <div style="display: flex;">
+              <?php foreach ($data['ukm'] as $post) : ?>
+                <a href="<?= DIREKTORI . '/posts/detail/' . $post['id_post']  ?>">
+                  <img src="<?= DIREKTORI . '/assets/news/' . $post['image'] ?>" style="width: 200px; height: 200px; object-fit: cover; margin-right: 20px;" alt="UKM Image">
+                </a>
+              <?php endforeach; ?>
             </div>
-            <div class="card-body">
-                <div class="container" style="overflow-x: auto;">
-                    <div style="display: flex;">
-                        <img src="assets/agk.jpg"
-                            style="width: 400px; height: 500px; object-fit: cover; margin-right: 20px;" alt="UKM Image">
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-</body>
+      </div>
 
-<footer>
-    <div class="container">
-        <div class="row">
-            <div>
-                <h3 style="color: aliceblue;"><b>Fokus Unpak</b></h3>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <p><a href="" style="color: aliceblue">Kategori</a></p>
-                        <p><a href="" style="color: aliceblue">UKM</a></p>
-                        <p><a href="" style="color: aliceblue">DKM</a></p>
-                        <p><a href="" style="color: aliceblue">Kemahasiswaan</a></p>
-                </div>
-            </div>
+      <div class="card mt-5" style="margin-top: 20px; margin-bottom: 20px; margin-left: 80px; margin-right: 80px;">
+        <div style="text-align: center; padding: auto; font-size: 30px;" class="card-header bg-primary">
+          <h3 class="text-light">KEMAHASISWAAN</h3>
         </div>
-    </div>
-</footer>
-
-</html>
+        <div class="card-body">
+          <div class="container" style="overflow-x: auto;">
+            <div style="display: flex;">
+              <?php foreach ($data['kemahasiswaan'] as $post) : ?>
+                <a href="<?= DIREKTORI . '/posts/detail/' . $post['id_post']  ?>">
+                  <img src="<?= DIREKTORI . '/assets/news/' . $post['image'] ?>" style="width: 200px; height: 200px; object-fit: cover; margin-right: 20px;" alt="UKM Image">
+                </a>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-5" style="margin-top: 20px; margin-bottom: 20px; margin-left: 80px; margin-right: 80px;">
+        <div style="text-align: center; padding: auto; font-size: 30px;" class="card-header bg-primary">
+          <h3 class="text-light">DKM</h3>
+        </div>
+        <div class="card-body">
+          <div class="container" style="overflow-x: auto;">
+            <div style="display: flex;">
+              <?php foreach ($data['dkm'] as $post) : ?>
+                <a href="<?= DIREKTORI . '/posts/detail/' . $post['id_post']  ?>">
+                  <img src="<?= DIREKTORI . '/assets/news/' . $post['image'] ?>" style="width: 200px; height: 200px; object-fit: cover; margin-right: 20px;" alt="UKM Image">
+                </a>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        </div>
+      </div>
